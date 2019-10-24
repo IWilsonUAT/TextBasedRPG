@@ -135,7 +135,7 @@ int main()
 	//string used to get the desired race of the companion
 	string partner;
 	cout << "\nPlease choose one other race to be your partner for this adventure.\n";
-	cin >> partner;
+	cin >> partner; 
 	if (partner == "human" || partner == "Human" && race != "human" && race != "Human")
 	{
 		human human;

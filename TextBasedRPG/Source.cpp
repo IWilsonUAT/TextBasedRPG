@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+ 
 using namespace std;
 //creating a object class for the Human Race
 class human
@@ -11,7 +12,7 @@ public:
 	int HP = 100;
 	int Range = 15;
 	string Weapon = "sword";
-	int Damage = 34 * Range;
+	int Damage = Strength * Range;
 };
 //creating a object class for the Dragoon Race
 class dragoon
@@ -23,7 +24,7 @@ public:
 	int HP = 50;
 	int Range = 10;
 	string Weapon = "claws";
-	int Damage = 50 * Range;
+	int Damage = Strength * Range;
 };
 //creating a object class for the Elf Race
 class elf
@@ -35,7 +36,7 @@ public:
 	int HP = 150;
 	int Range = 50;
 	string Weapon = "bow";
-	int Damage = 10 * Range;
+	int Damage = Strength * Range;
 };
 //creating a object class for the Pixie Race
 class pixie
@@ -47,7 +48,7 @@ public:
 	int HP = 50;
 	int Range = 25;
 	string Weapon = "stave";
-	int Damage = 20 * Range;
+	int Damage = Strength * Range;
 };
 //creating a object class for the player
 class mainPlayer
@@ -83,7 +84,7 @@ int up(int& vertical, int difficulty)
 	}
 		else
 		{
-			cout << "You are already at the bottom of the map\n\n";
+			cout << "You are already at the top of the map\n\n";
 		}
 	return vertical;
 }
@@ -106,10 +107,10 @@ int right(int& horizontal, int difficulty)
 	//move right
 	 if (difficulty == 1)
 	 {
-		 if (horizontal <= 2)
+		 if (horizontal < 2)
 		 {
 			 horizontal++;
-			 
+			 cout << horizontal << "\n";
 		 }
 		 else
 		 {
@@ -118,7 +119,7 @@ int right(int& horizontal, int difficulty)
 	 }
 	 if (difficulty == 2)
 	 {
-		 if (horizontal <= 4)
+		 if (horizontal < 4)
 		 {
 			 horizontal++;
 		 }
@@ -129,7 +130,7 @@ int right(int& horizontal, int difficulty)
 	 }
 	 if (difficulty == 3)
 	 {
-		 if (horizontal <= 6)
+		 if (horizontal < 6)
 		 {
 			 horizontal++;
 		 }
@@ -152,7 +153,7 @@ int down(int& vertical, int difficulty)
 		}
 		else
 		{
-			cout << "You are already at the top of the map\n\n";
+			cout << "You are already at the bottom of the map\n\n";
 		}
 	}
 	if (difficulty == 2)
@@ -163,7 +164,7 @@ int down(int& vertical, int difficulty)
 		}
 		else
 		{
-			cout << "You are already at the top of the map\n\n";
+			cout << "You are already at the bottom of the map\n\n";
 		}
 	}
 	if (difficulty == 3)
@@ -174,46 +175,70 @@ int down(int& vertical, int difficulty)
 		}
 		else
 		{
-			cout << "You are already at the top of the map\n\n";
+			cout << "You are already at the bottom of the map\n\n";
 		}
 	}
 	return vertical;
 }
-int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, int& y, bool& boss, int& boss_x, int& boss_y)
+int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, int& y, bool& boss, int& boss_x, int& boss_y, string& race)
 {
-	//mainPlayer player;
 	if (difficulty == 1)
 	{
 		string answer;
-		if (x != 2 || y != 2)
+		if (x != boss_x && y != boss_y)
 		{	
 			int chance = rand() % 4;
-			int monster_health = rand() % 200 + 100;
+			int monster_health = rand() % 5000 + 2000;
 			if (chance == 1)
 			{
 				cout << "A monster has come into your path.";
-				cout << "Do you attack?\n yes/no\n";
-				cin >> answer;
-				if (answer == "yes")
-				{
-					cout << "You attacked with your " << weapon << " and did " << damage << " damage to the monster.\n";
-					monster_health -= damage;
-					if (monster_health <= 0)
-					{
-						cout << "You killed the monster, way to go\n";
-					}
-					else
-					{
 
-						cout << "The monster counter attacked and dealt 10 points of damage.\n";
-						health = health - 10;
-					}
-				}
-				else if (answer == "no")
+				while (monster_health > 0)
 				{
-					cout << "You did not attack.\n";
-					cout << "However the monster still attacked you dealing 10 points of damage.\n";
-					health = health - 10;
+					cout << "Do you attack?\n yes/no\n";
+					cin >> answer;
+					if (answer == "yes")
+					{
+						cout << "You attacked with your " << weapon << " and did " << damage << " damage to the monster.\n";
+						monster_health -= damage;
+						if (monster_health <= 0)
+						{
+							cout << "You killed the monster, way to go\n";
+							if (race == "human")
+							{
+								human human;
+								human.HP += 50;
+							}
+							if (race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.HP += 50;
+							}
+							if (race == "elf")
+							{
+								elf elf;
+								elf.HP += 50;
+							}
+							if (race == "pixie")
+							{
+								pixie pixie;
+								pixie.HP += 50;
+							}
+						}
+						else
+						{
+							cout << "The monster counter attacked and dealt 10 points of damage.\n";
+							health = health - 10;
+							cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
+						}
+					}
+					else if (answer == "no")
+					{
+						cout << "You did not attack.\n";
+						cout << "However the monster still attacked you dealing 10 points of damage.\n";
+						health = health - 10;
+						cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
+					}
 				}
 			}
 			else
@@ -223,7 +248,7 @@ int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, i
 		}
 		else if (x == 2 && y == 2)
 		{
-			int monster_health = 1000;
+			int monster_health = 10000;
 			cout << "!!You have found the Great Serpent Gregory!!\n";
 			while (monster_health > 0)
 			{
@@ -245,7 +270,15 @@ int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, i
 
 						cout << "The monster counter attacked and dealt 10 points of damage.\n";
 						health = health - 20;
+						cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
 					}
+				}
+				else if (answer == "no")
+				{
+					cout << "You did not attack.\n";
+					cout << "However the monster still attacked you dealing 20 points of damage.\n";
+					health = health - 20;
+					cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
 				}
 			}
 		}
@@ -253,44 +286,108 @@ int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, i
 	if (difficulty == 2)
 	{
 		int chance = rand() % 2;
-		int monster_health = rand() % 1000 + 500;
+		int monster_health = rand() % 10000 + 5000;
 		string answer;
-		if (chance == 1)
+		if (x != boss_x && y != boss_y)
 		{
-			cout << "A monster has come into your path.";
-			cout << "Do you attack?\n yes/no\n";
-			cin >> answer;
-			if (answer == "yes")
+			if (chance == 1)
 			{
-				cout << "You attacked with your " << weapon << " and did " << damage << " damage to the monster.\n";
-				monster_health -= damage;
-				if (monster_health == 0)
+				cout << "A monster has come into your path.";
+				while (monster_health > 0)
 				{
-					cout << "You killed the monster, way to go\n";
-				}
-				else 
-				{
-
-					cout << "The monster counter attacked and dealt 50 points of damage.\n";
-					health = health - 50;
+					cout << "Do you attack?\n yes/no\n";
+					cin >> answer;
+					if (answer == "yes")
+					{
+						cout << "You attacked with your " << weapon << " and did " << damage << " damage to the monster.\n";
+						monster_health -= damage;
+						if (monster_health == 0)
+						{
+							cout << "You killed the monster, way to go\n";
+							if (race == "human")
+							{
+								human human;
+								human.HP += 100;
+							}
+							if (race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.HP += 100;
+							}
+							if (race == "elf")
+							{
+								elf elf;
+								elf.HP += 100;
+							}
+							if (race == "pixie")
+							{
+								pixie pixie;
+								pixie.HP += 100;
+							}
+						}
+						else
+						{
+							cout << "The monster counter attacked and dealt 50 points of damage.\n";
+							health = health - 50;
+							cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
+						}
+					}
+					else if (answer == "no")
+					{
+						cout << "You did not attack.\n";
+						cout << "However the monster still attacked you dealing 50 points of damage.\n";
+						health = health - 50;
+						
+					}
 				}
 			}
-			else if (answer == "no")
+			else
 			{
-				cout << "You did not attack.\n";
-				cout << "However the monster still attacked you dealing 50 points of damage.\n";
-				health = health - 50;
+				cout << "No monster appeared before you.\n";
 			}
 		}
-		else
+		if (x == boss_x && y == boss_y)
 		{
-			cout << "No monster appeared before you.\n";
+			//create Karen
+			 monster_health = 30000;
+			cout << "!!You have found Karen, The Kraken!!\n";
+			while (monster_health > 0)
+			{
+				cout << "Will you attack? \nyes/no\n";
+				cin >> answer;
+
+				if (answer == "yes")
+				{
+					cout << "You attacked with your " << weapon << " and did " << damage << " damage to the monster.\n";
+					monster_health -= damage;
+					if (monster_health <= 0)
+					{
+						cout << "You killed the monster, way to go\n";
+						cout << "You cut out his heart so you can take it back to the king.\n";
+						boss = true;
+					}
+					else
+					{
+
+						cout << "The monster counter attacked and dealt 10 points of damage.\n";
+						health = health - 75;
+						cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
+					}
+				}
+				else if (answer == "no")
+				{
+					cout << "You did not attack.\n";
+					cout << "However the monster still attacked you dealing 20 points of damage.\n";
+					health = health - 75;
+					cout << "Your teams health: " << health << "\nThe monsters health: " << monster_health << "\n";
+				}
+			}
 		}
 	}
 	if (difficulty == 3)
 	{
 		int chance = 1;
-		int monster_health = rand() % 10000 + 1000;
+		int monster_health = rand() % 20000 + 10000;
 		string answer;
 		if (chance == 1)
 		{
@@ -508,26 +605,133 @@ int main()
 					if (movement == "up")
 					{
 						up(y,difficulty);
-						cout << y << "\n";
-						monster(health, damage, difficulty, player.Weapon,x,y,boss,gregory_x,gregory_y);
+						monster(health, damage, difficulty, player.Weapon,x,y,boss,gregory_x,gregory_y,player.Race);
 					}
 					if (movement == "down")
 					{
 						down(y, difficulty);
-						cout << y << "\n";
-						monster(health, damage, difficulty, player.Weapon,x,y,boss, gregory_x, gregory_y);
+						monster(health, damage, difficulty, player.Weapon,x,y,boss, gregory_x, gregory_y,player.Race);
 					}
 					if (movement == "left")
 					{
 						left(x, difficulty);
-						cout << x << "\n";
-						monster(health, damage, difficulty, player.Weapon,x,y,boss, gregory_x, gregory_y);
+						monster(health, damage, difficulty, player.Weapon,x,y,boss, gregory_x, gregory_y,player.Race);
 					}
 					if (movement == "right")
 					{
 						right(x, difficulty);
-						cout << x << "\n";
-						monster(health, damage, difficulty, player.Weapon, x ,y,boss, gregory_x, gregory_y);
+						monster(health, damage, difficulty, player.Weapon, x ,y,boss, gregory_x, gregory_y,player.Race);
+					}
+				}
+				if (boss == true)
+				{
+					cout << "Congratulations you have slain the monster and retrieved its heart.\n Would you like to teleport back to the king?\nyes/no\n";
+					cin >> answer;
+					if (answer == "yes")
+					{
+						x = 1;
+						y = 1;
+					}
+					else
+					{
+						cout << "Please make your way back to the king.\n";
+					}
+					while (x != 1 && y!= 1)
+					{
+						string movement;
+						cout << "Will you move up, down, left, or right?\n";
+						cin >> movement;
+						if (movement == "up")
+						{
+							up(y, difficulty);
+						}
+						if (movement == "down")
+						{
+							down(y, difficulty);
+						}
+						if (movement == "left")
+						{
+							left(x, difficulty);
+						}
+						if (movement == "right")
+						{
+							right(x, difficulty);
+						}
+					}
+					if (x == 1 && y ==1)
+					{
+						cout << "King \" Congrats, " << player.Name << ", you have slain the monster known as Gregory and brought me his heart. You have done well my noble knight and you shall be rewarded.\"";
+						cout << "Would you like to increase your Health, Strength, or Range?(Strength and range increase your damage)\n";
+						cin >> answer;
+						if (answer == "Health")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.HP += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.HP += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.HP += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.HP += 50;
+							}
+						}
+						else if (answer == "Strength")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Strength += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Strength += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Strength += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Strength += 50;
+							}
+						}
+						else if (answer == "Range")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Range += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Range += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Range += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Range += 50;
+							}
+						}
 					}
 				}
 			}
@@ -553,7 +757,152 @@ int main()
 					cout << "Carry out on your way";
 				}
 				bool alive = true;
-				bool Karen_dead = false;
+				bool boss = false;
+				x = 2;
+				y = 2;
+				int boss_x = 0;
+				int boss_y = 0;
+				while (alive == true && boss == false)
+				{
+					string movement;
+					cout << "Will you move up, down, left, or right?\n";
+					cin >> movement;
+					if (movement == "up")
+					{
+						up(y, difficulty);
+						cout << y << "\n";
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, boss_x, boss_y,player.Race);
+					}
+					if (movement == "down")
+					{
+						down(y, difficulty);
+						cout << y << "\n";
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, boss_x, boss_y,player.Race);
+					}
+					if (movement == "left")
+					{
+						left(x, difficulty);
+						cout << x << "\n";
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, boss_x, boss_y,player.Race);
+					}
+					if (movement == "right")
+					{
+						right(x, difficulty);
+						cout << x << "\n";
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, boss_x, boss_y,player.Race);
+					}
+				}
+				if (boss == true)
+				{
+					cout << "Congratulations you have slain the monster and retrieved its heart.\n Would you like to teleport back to the king?\nyes/no\n";
+					cin >> answer;
+					if (answer == "yes")
+					{
+						x = 2;
+						y = 2;
+					}
+					else
+					{
+						cout << "Please make your way back to the king.\n";
+					}
+					while (x != 2 && y != 2)
+					{
+						string movement;
+						cout << "Will you move up, down, left, or right?\n";
+						cin >> movement;
+						if (movement == "up")
+						{
+							up(y, difficulty);
+						}
+						if (movement == "down")
+						{
+							down(y, difficulty);
+						}
+						if (movement == "left")
+						{
+							left(x, difficulty);
+						}
+						if (movement == "right")
+						{
+							right(x, difficulty);
+						}
+					}
+					if (x == 1 && y == 1)
+					{
+						cout << "King \" Congrats, " << player.Name << ", you have slain the monster known as Karen and brought me her heart. You have done well my noble knight and you shall be rewarded.\"";
+						cout << "Would you like to increase your Health, Strength, or Range?(Strength and range increase your damage)\n";
+						cin >> answer;
+						if (answer == "Health")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.HP += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.HP += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.HP += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.HP += 50;
+							}
+						}
+						else if (answer == "Strength")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Strength += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Strength += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Strength += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Strength += 50;
+							}
+						}
+						else if (answer == "Range")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Range += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Range += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Range += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Range += 50;
+							}
+						}
+					}
+				}
 			}
 			if (difficulty == 3)
 			{

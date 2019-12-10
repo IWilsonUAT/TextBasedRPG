@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
-#include "TBRPGf.cpp"
+#include "TBRPGF.h"
+#include "Monster.h"
 using namespace std;
 //creating a object class for the Human Race
 class human
@@ -648,7 +649,7 @@ int main()
 							right(x, difficulty);
 						}
 					}
-					if (x == 1 && y == 1)
+					if (x == 2 && y == 2)
 					{
 						cout << "King \" Congrats, " << player.Name << ", you have slain the monster known as Karen and brought me her heart. You have done well my noble knight and you shall be rewarded.\"";
 						cout << "Would you like to increase your Health, Strength, or Range?(Strength and range increase your damage)\n";
@@ -722,6 +723,17 @@ int main()
 								pixie.Range += 50;
 							}
 						}
+						cout << "Would you like to play again?\nyes/no\n";
+						string temp;
+						cin >> temp;
+						if (temp == "yes")
+						{
+							playAgain = true;
+						}
+						else if (temp == "no")
+						{
+							playAgain = false;
+						}
 					}
 				}
 			}
@@ -752,8 +764,9 @@ int main()
 				bool boss = false;
 				x = 3;
 				y = 3;
-				int erik_x = rand()*6;
-				int erik_y = rand()*6;
+				int erik_x = rand()%6;
+				int erik_y = rand()%6;
+				cout << erik_x << " " << erik_y << "\n";
 				while (alive == true && boss == false)
 				{
 					string movement;

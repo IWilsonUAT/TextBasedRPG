@@ -18,10 +18,8 @@
     <ClCompile Include="TBRPG.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="TBRPG.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="TBRPGF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

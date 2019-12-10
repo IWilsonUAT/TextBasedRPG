@@ -132,7 +132,7 @@ int monster(int& health, int& damage, int& difficulty, string& weapon, int& x, i
 						if (monster_health <= 0)
 						{
 							cout << "You killed the monster, way to go\n";
-							
+
 						}
 						else
 						{

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "TBRPG.h"
+#include "TBRPGf.cpp"
 using namespace std;
 //creating a object class for the Human Race
 class human
@@ -466,6 +466,17 @@ int main()
 								pixie.Range += 50;
 							}
 						}
+						cout << "Would you like to play again?\nyes/no\n";
+						string temp;
+						cin >> temp;
+						if (temp == "yes")
+						{
+							playAgain = true;
+						}
+						else if (temp == "no")
+						{
+							playAgain = false;
+						}
 					}
 				}
 			}
@@ -720,6 +731,8 @@ int main()
 				cout << "This monster's name is Erik\"\n";
 				cout << "King \"The great librarian shall give you more information, if you desire\"\n";
 				cout << "Great Librarian \"Would you like more information?\" \nyes/no\n";
+				int scrollX = 4;
+				int scrollY = 5;
 				cin >> library;
 				if (library == "yes")
 				{
@@ -736,7 +749,239 @@ int main()
 					cout << "Carry out on your way";
 				}
 				bool alive = true;
-				bool erik_dead = false;
+				bool boss = false;
+				x = 3;
+				y = 3;
+				int erik_x = rand()*6;
+				int erik_y = rand()*6;
+				while (alive == true && boss == false)
+				{
+					string movement;
+					cout << "Will you move up, down, left, or right?\n";
+					cin >> movement;
+					if (movement == "up")
+					{
+						up(y, difficulty);
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, erik_x, erik_y, player.Race);
+						if (race == "human")
+						{
+							human human;
+							human.HP += 50;
+						}
+						if (race == "dragoon")
+						{
+							dragoon dragoon;
+							dragoon.HP += 50;
+						}
+						if (race == "elf")
+						{
+							elf elf;
+							elf.HP += 50;
+						}
+						if (race == "pixie")
+						{
+							pixie pixie;
+							pixie.HP += 50;
+						}
+					}
+					if (movement == "down")
+					{
+						down(y, difficulty);
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, erik_x, erik_y, player.Race);
+						if (race == "human")
+						{
+							human human;
+							human.HP += 50;
+						}
+						if (race == "dragoon")
+						{
+							dragoon dragoon;
+							dragoon.HP += 50;
+						}
+						if (race == "elf")
+						{
+							elf elf;
+							elf.HP += 50;
+						}
+						if (race == "pixie")
+						{
+							pixie pixie;
+							pixie.HP += 50;
+						}
+					}
+					if (movement == "left")
+					{
+						left(x, difficulty);
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, erik_x, erik_y, player.Race);
+						if (race == "human")
+						{
+							human human;
+							human.HP += 50;
+						}
+						if (race == "dragoon")
+						{
+							dragoon dragoon;
+							dragoon.HP += 50;
+						}
+						if (race == "elf")
+						{
+							elf elf;
+							elf.HP += 50;
+						}
+						if (race == "pixie")
+						{
+							pixie pixie;
+							pixie.HP += 50;
+						}
+					}
+					if (movement == "right")
+					{
+						right(x, difficulty);
+						monster(health, damage, difficulty, player.Weapon, x, y, boss, erik_x, erik_y, player.Race);
+						if (race == "human")
+						{
+							human human;
+							human.HP += 50;
+						}
+						if (race == "dragoon")
+						{
+							dragoon dragoon;
+							dragoon.HP += 50;
+						}
+						if (race == "elf")
+						{
+							elf elf;
+							elf.HP += 50;
+						}
+						if (race == "pixie")
+						{
+							pixie pixie;
+							pixie.HP += 50;
+						}
+					}
+				}
+				if (boss == true)
+				{
+					cout << "Congratulations you have slain the monster and retrieved its heart.\n Would you like to teleport back to the king?\nyes/no\n";
+					cin >> answer;
+					if (answer == "yes")
+					{
+						x = 3;
+						y = 3;
+					}
+					else
+					{
+						cout << "Please make your way back to the king.\n";
+					}
+					while (x != 3 && y != 3)
+					{
+						string movement;
+						cout << "Will you move up, down, left, or right?\n";
+						cin >> movement;
+						if (movement == "up")
+						{
+							up(y, difficulty);
+						}
+						if (movement == "down")
+						{
+							down(y, difficulty);
+						}
+						if (movement == "left")
+						{
+							left(x, difficulty);
+						}
+						if (movement == "right")
+						{
+							right(x, difficulty);
+						}
+					}
+					if (x == 3 && y == 3)
+					{
+						cout << "King \" Congrats, " << player.Name << ", you have slain the monster known as Gregory and brought me his heart. You have done well my noble knight and you shall be rewarded.\"";
+						cout << "Would you like to increase your Health, Strength, or Range?(Strength and range increase your damage)\n";
+						cin >> answer;
+						if (answer == "Health")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.HP += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.HP += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.HP += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.HP += 50;
+							}
+						}
+						else if (answer == "Strength")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Strength += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Strength += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Strength += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Strength += 50;
+							}
+						}
+						else if (answer == "Range")
+						{
+							if (player.Race == "human")
+							{
+								human human;
+								human.Range += 50;
+							}
+							if (player.Race == "dragoon")
+							{
+								dragoon dragoon;
+								dragoon.Range += 50;
+							}
+							if (player.Race == "elf")
+							{
+								elf elf;
+								elf.Range += 50;
+							}
+							if (player.Race == "pixie")
+							{
+								pixie pixie;
+								pixie.Range += 50;
+							}
+						}
+						cout << "Would you like to play again?\nyes/no\n";
+						string temp;
+						cin >> temp;
+						if (temp == "yes")
+						{
+							playAgain = true;
+						}
+						else if (temp == "no")
+						{
+							playAgain = false;
+						}
+					}
+				}
 			}
 		}
 		else if (quest == false)
